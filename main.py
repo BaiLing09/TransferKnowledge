@@ -80,8 +80,7 @@ def do_train():
                                         num_workers=args.train_batch_size, pin_memory=False, collate_fn=lambda x: x)
 
     # 自动验证数据集    val dataset
-    DatasetCatalog.register("val", lambda: get_dataset_dict('./Semantic_Dataset/val/0.28',
-                                                            num_class=22))
+    DatasetCatalog.register("val", lambda: get_dataset_dict(args.val_path, num_class=22))
     MetadataCatalog.get("val").set(
         thing_classes=["chair", "table", "picture", "cabinet", "cushion", "sofa", "bed",
                        "chest_of_drawers", "plant", "sink", "toilet", "stool", "towel",
@@ -90,7 +89,7 @@ def do_train():
     metadata = MetadataCatalog.get("val")
 
     val_loader = build_detection_test_loader(cfg, 'val', batch_size=args.val_batch_size)
-    save_path = "./output/tmp/AP_test"
+    save_path = "./output/student/AP_test"
     evaluator = COCOEvaluator("val", cfg, False, output_dir=save_path)
 
     print("labeled len: ", len(train_labeled_loader))
@@ -137,8 +136,7 @@ def do_train():
                 loss_labeled, proposal_info_labeled = model(labeled_train)
 
                 # 更新原型中心  update prototype center
-                prototype_bank.updateEMA(proposal_info_labeled, proposal_info_unlabeled,
-                                         args.prototype_similarity_threshold, loss_weight)
+                prototype_bank.updateEMA(proposal_info_labeled, proposal_info_unlabeled, loss_weight)
 
                 # 计算损失   loss
                 infoNCE_loss_labeled, loss_score_labeled = infoNCE_loss(proposal_info_labeled,

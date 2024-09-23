@@ -108,13 +108,13 @@ def get_dataset_dict(data_dir, num_class=22):
 def Ap_my():
     args, cfg, _ = get_args()
     model = build_model(cfg)
-    checkpointer = DetectionCheckpointer(model, "./output")
-    checkpointer.load(args.pretrained_model)
+    checkpointer = DetectionCheckpointer(model, "../output/tmp")
+    model_path = os.path.join("." + args.model_output_path, args.model_save_name + ".pth")
+    checkpointer.load(model_path)
     model.eval()
 
     # 验证数据集  val dataset
-    DatasetCatalog.register("val", lambda: get_dataset_dict('/media/hp/WD/Semantic_Dataset/val/0.28',
-                                                            num_class=22))
+    DatasetCatalog.register("val", lambda: get_dataset_dict("." + args.val_path, num_class=22))
     MetadataCatalog.get("val").set(
         thing_classes=["chair", "table", "picture", "cabinet", "cushion", "sofa", "bed",
                        "chest_of_drawers", "plant", "sink", "toilet", "stool", "towel",
@@ -134,4 +134,6 @@ def Ap_my():
             f.write(f"{key}:{value}\n")
     print(eval_results)
 
-# Ap_my()
+
+if __name__ == "__main__":
+    Ap_my()

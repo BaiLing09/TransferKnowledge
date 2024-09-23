@@ -1,5 +1,8 @@
 import numpy as np
 import imageio.v2 as imageio
+import argparse
+import os
+import cv2 as cv
 
 
 class Projection:
@@ -61,11 +64,10 @@ class Projection:
         return rgb_t.astype(np.uint8), depth_t / 10.0, sem_t.astype(np.uint8)  # 返回的深度要重新转换为千米
 
 
-def viewpointTransform():
-    import os
-    import cv2 as cv
+def viewpointTransform(args):
     # 设置数据保存路径
-    root_path = os.path.join('./Semantic_Dataset/train/0.48')
+    root_path = os.path.join('./Semantic_Dataset/labeled/',
+                             str(args.source_height) + "->" + str(args.target_height) + "_projection")
     rgb_path = os.path.join(root_path, 'rgb')
     depth_path = os.path.join(root_path, 'depth')
     semantic_path = os.path.join(root_path, 'semantic')
@@ -77,14 +79,14 @@ def viewpointTransform():
         os.makedirs(instance_path)
 
     # 设置读取图像的路径
-    read_path = os.path.join('./Semantic_Dataset/train/0.88')
+    read_path = os.path.join('./Semantic_Dataset/labeled/', str(args.source_height))
     read_rgb_path = os.path.join(read_path, 'rgb')
     read_depth_path = os.path.join(read_path, 'depth')
     read_semantic_path = os.path.join(read_path, 'semantic')
     read_instance_path = os.path.join(read_path, 'instance')
 
     # 将0.68的图像投影到其它高度
-    total_image = 5548
+    total_image = len(os.listdir(rgb_path))
     projection = Projection()
 
     for image_id in range(0, total_image):
@@ -119,4 +121,9 @@ def viewpointTransform():
         cv.imwrite(ins_file, instance_t)
 
 
-viewpointTransform()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Projection')
+    parser.add_argument('--source_height', type=float, default=0.88, help='source height (meter)')
+    parser.add_argument('--target_height', type=float, default=0.28, help='target height (meter)')
+    args = parser.parse_args()
+    viewpointTransform(args)

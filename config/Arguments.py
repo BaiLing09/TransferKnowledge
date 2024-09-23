@@ -33,9 +33,9 @@ def get_args():
 
     # 路径
     parser.add_argument('--pretrained_model', type=str,
-                        default='./output/tmp/model_final.pth',
+                        default='./output/teacher/model_final.pth',
                         help='预训练模型所在路径')
-    parser.add_argument('--model_output_path', type=str, default='./output/tmp', help='训练后模型输出位置')
+    parser.add_argument('--model_output_path', type=str, default='./output/student', help='训练后模型输出位置')
     parser.add_argument('--model_save_name', type=str, default='semi_model_5k')
     parser.add_argument('--prototype_path', type=str, default='./prototype/prototype_centre.pth')
     parser.add_argument('--labeled_path', type=str,
@@ -43,7 +43,7 @@ def get_args():
                         help='有标签数据位置 ')
     parser.add_argument('--unlabeled_path', type=str, default='./Semantic_Dataset/unlabeled/0.28',
                         help='无标签数据位置')
-    parser.add_argument('--val_path', type=str, default='./Semantic_Dataset/val', help='验证集位置')
+    parser.add_argument('--val_path', type=str, default='./Semantic_Dataset/val/0.28', help='验证集位置')
 
     # 数据集参数
     parser.add_argument('--labeled_high', type=float, default=0.88, help='有标签数据高度（原高度）')

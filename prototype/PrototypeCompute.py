@@ -3,7 +3,7 @@ import torch
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
-from datalodar.DataProcessing import labeledForTrain
+from dataloader.DataProcessing import labeledForTrain
 
 
 class PrototypeBank:

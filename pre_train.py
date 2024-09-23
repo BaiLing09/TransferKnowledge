@@ -116,12 +116,12 @@ def train():
 
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml"))
-    cfg.DATASETS.TRAIN = ("train",)
+    cfg.DATASETS.TRAIN = ("labeled",)
     cfg.DATASETS.TEST = ()
     cfg.DATALOADER.NUM_WORKERS = 4
     cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(
         "COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml")
-    cfg.OUTPUT_DIR = "/media/hp/WD/model_save/dataset_5k_R50C4/projection_model_0.88_0.28_R50C4"
+    cfg.OUTPUT_DIR = "./output/teacher"
     cfg.SOLVER.IMS_PER_BATCH = 7
     cfg.SOLVER.BASE_LR = 0.002
     cfg.SOLVER.MAX_ITER = 28500  # 当使用两个高度时，迭代28500步(7 mini-batch)，一个高度时，迭代27000步(7 mini-batch)
@@ -143,7 +143,7 @@ def train():
 
 
 def main():
-    for d in ["train"]:
+    for d in ["labeled"]:
         DatasetCatalog.register(d, lambda x=d: get_dataset_dict(
             os.path.join("./Semantic_Dataset", x)))
         MetadataCatalog.get(d).set(
@@ -154,4 +154,5 @@ def main():
     train()
 
 
-main()
+if __name__ == "__main__":
+    main()
