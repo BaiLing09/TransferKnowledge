@@ -1,4 +1,4 @@
 # TransferKnowledge
 
-![](..\docs\demo.gif)
+![](.\docs\demo.gif)
 
