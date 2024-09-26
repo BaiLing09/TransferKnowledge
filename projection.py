@@ -106,7 +106,7 @@ def viewpointTransform(args):
 
         # 进行投影
         rgb_t, depth_t, sem_t, instance_t = projection.projection(rgb=rgb, depth=depth * 10.0, semantic=sem,
-                                                                  transform_height=-0.6,
+                                                                  transform_height=args.target_height - args.source_height,
                                                                   instance=instance)  # 注意：这里的深度要转换为米再输入
 
         # 保存
