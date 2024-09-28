@@ -8,6 +8,8 @@ Shenzhen Institute of Artificial Intelligence and Robotics for Society (AIRS)
 
 Baidu Inc., Beijing, China
 
+
+
 ## This repository contains
 
 * The RGB-D dataset with labels collected from Habitat-Matterport 3D household scenes at 10 different height viewpoints.
@@ -124,16 +126,26 @@ The dataset is in Baidu Netdisk
 
 ## Test setup
 
-To verify that the student model:
+1. Downlowd the model after training
 
-```sh
-cd loss
-python ApVal.py --val_path ../Semantice_Dataset/val/<source height>
+   * [teacher model](https://pan.baidu.com/s/15F9ki7x30hT8k7kTYjgFPg ): extraction code [ qt0x ]
 
-e.g. python ApVal.py --val_path ../Semantice_Dataset/val/0.28
-```
+     download the teacher model into the folder ``./output/teacher/``
 
+   * [student model](https://pan.baidu.com/s/1F3-6gJK7NVPDyo2MSzORqA ): extraction code [ w6av ]
 
+     download the student model into the folder ``./output/student/``
+
+2. To verify that the student model
+
+   ```sh
+   cd loss
+   python ApVal.py --val_path ../Semantice_Dataset/val/<source height>
+   
+   e.g. python ApVal.py --val_path ../Semantice_Dataset/val/0.28
+   ```
+
+   
 
 ## Training setup
 
